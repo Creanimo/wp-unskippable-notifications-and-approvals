@@ -151,9 +151,12 @@ __webpack_require__.r(__webpack_exports__);
  */
 const useSettings = () => {
   const [frontendDisplay, setFrontendDisplay] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(true);
+  const [defaultDuration, setDefaultDuration] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_2__.useState)(60);
   return {
     frontendDisplay,
-    setFrontendDisplay
+    setFrontendDisplay,
+    defaultDuration,
+    setDefaultDuration
   };
 };
 
@@ -184,6 +187,7 @@ const FrontendDisplayControl = ({
 }) => {
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.ToggleControl, {
     label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('show messages in frontend', 'unskippable-notifications'),
+    help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Temporarily disable forced notifications on frontend site.', 'unskippable-notifications'),
     checked: value,
     onChange: onChange,
     __nextHasNoMarginBottom: true
@@ -197,26 +201,31 @@ const FrontendDisplayControl = ({
 const SettingsPage = () => {
   const {
     frontendDisplay,
-    setFrontendDisplay
+    setFrontendDisplay,
+    defaultDuration,
+    setDefaultDuration
   } = useSettings();
   const onTabSelect = tabName => {
     console.log('Selecting tab', tabName);
   };
   // only one component can be reurned in react, so everything needs to be wrapped in <>...</>
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Panel, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalSpacer, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalHeading, {
-    level: 1
-  }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unskippable Notifications & Approvals', 'unskippable-notifications'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TabPanel, {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.Panel, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.PanelBody, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalSpacer, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h1", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Unskippable Notifications & Approvals', 'unskippable-notifications'))), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.TabPanel, {
     className: "my-tab-panel",
     activeClass: "is-active",
     onSelect: onTabSelect,
     tabs: [{
       name: 'general',
-      title: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('General Visibility & Scheduling', 'unskippable-notifications')),
+      title: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('General', 'unskippable-notifications')),
       className: 'unskippable-notifications-settings__tab--general',
-      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)("These settings apply to all notifications and approval requests.", 'unskippable-notificatons')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(FrontendDisplayControl, {
+      content: (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalSpacer, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(FrontendDisplayControl, {
         value: frontendDisplay,
         onChange: value => setFrontendDisplay(value)
-      }))
+      })), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalSpacer, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_4__.__experimentalNumberControl, {
+        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('Default Duration', 'unskippable-notifications'),
+        help: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_3__.__)('For how many days after publication should a new notification be shown by default? Can be changed for every notification during creation.', 'unskippable-notifications'),
+        value: defaultDuration,
+        onChange: value => setDefaultDuration(value)
+      })))
     }, {
       name: 'about',
       title: 'About',

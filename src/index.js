@@ -7,6 +7,7 @@ import {
     __experimentalSpacer as Spacer,
     __experimentalHeading as Heading,
     __experimentalView as View,
+    __experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
 
 /**
@@ -15,10 +16,13 @@ import {
  */
 const useSettings = () => {
     const [ frontendDisplay, setFrontendDisplay ] = useState(true);
+    const [ defaultDuration, setDefaultDuration ] = useState(60);
     
     return {
         frontendDisplay,
         setFrontendDisplay,
+        defaultDuration,
+        setDefaultDuration
     };
 };
 
@@ -45,6 +49,7 @@ const FrontendDisplayControl = ( { value, onChange } ) => {
     return (
         <ToggleControl
             label={ __( 'show messages in frontend', 'unskippable-notifications' ) }
+            help={ __( 'Temporarily disable forced notifications on frontend site.', 'unskippable-notifications' ) }
             checked={ value }
             onChange={ onChange }
             __nextHasNoMarginBottom
@@ -60,6 +65,8 @@ const SettingsPage = () => {
     const {
         frontendDisplay,
         setFrontendDisplay,
+        defaultDuration,
+        setDefaultDuration
     } = useSettings();
     const onTabSelect = (tabName) => {
         console.log('Selecting tab', tabName);
@@ -69,7 +76,7 @@ const SettingsPage = () => {
         <>
             <Panel>
                 <PanelBody>
-                <Spacer><Heading level = { 1 }>{ __( 'Unskippable Notifications & Approvals', 'unskippable-notifications' ) }</Heading></Spacer>
+                <Spacer><h1>{ __( 'Unskippable Notifications & Approvals', 'unskippable-notifications' ) }</h1></Spacer>
                 <TabPanel
                     className="my-tab-panel"
                     activeClass="is-active"
@@ -77,13 +84,24 @@ const SettingsPage = () => {
                     tabs={[
                         {
                             name: 'general',
-                            title: <>{ __( 'General Visibility & Scheduling', 'unskippable-notifications' ) }</>,
+                            title: <>{ __( 'General', 'unskippable-notifications' ) }</>,
                             className: 'unskippable-notifications-settings__tab--general',
-                            content: <><p>{ __( "These settings apply to all notifications and approval requests.", 'unskippable-notificatons' ) }</p>
+                            content: <>
+                                <Spacer>
                                 <FrontendDisplayControl
-                                value={ frontendDisplay }
-                                onChange={ ( value ) => setFrontendDisplay( value ) }
-                            /></>
+                                    value={ frontendDisplay }
+                                    onChange={ ( value ) => setFrontendDisplay( value ) }
+                                />
+                                </Spacer>
+                                <Spacer>
+                                <NumberControl
+                                    label={__( 'Default Duration', 'unskippable-notifications' ) }
+                                    help={__( 'For how many days after publication should a new notification be shown by default? Can be changed for every notification during creation.', 'unskippable-notifications' ) }
+                                    value={ defaultDuration }
+                                    onChange={ ( value ) => setDefaultDuration( value ) }
+                                />
+                                </Spacer>
+                                </>
                         },
                         {
                             name: 'about',
