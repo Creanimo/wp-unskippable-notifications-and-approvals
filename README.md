@@ -1,6 +1,6 @@
 # Unskippable Notifications and Approvals
 
-![Badge: Tested with Wordpress 6.5.3](https://img.shields.io/badge/tested_with_WordPress-6.5.3-blue?logo=wordpress)
+![Version 0.0.1-alpha](https://img.shields.io/badge/version-0.0.1_alpha-red) ![Badge: Tested with Wordpress 6.5.3](https://img.shields.io/badge/tested_with_WordPress-6.5.3-green?logo=wordpress)
 
 
 > [!CAUTION]  
