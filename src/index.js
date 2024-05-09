@@ -74,55 +74,53 @@ const SettingsPage = () => {
     // only one component can be reurned in react, so everything needs to be wrapped in <>...</>
     return (
         <>
-            <Panel>
-                <PanelBody>
-                    <Spacer><h1>{__('Unskippable Notifications & Approvals', 'unskippable-notifications')}</h1></Spacer>
-                    <TabPanel
-                        className="my-tab-panel"
-                        activeClass="is-active"
-                        onSelect={onTabSelect}
-                        tabs={[
-                            {
-                                name: 'general',
-                                title: <>{__('General', 'unskippable-notifications')}</>,
-                                className: 'unskippable-notifications-settings__tab--general',
-                                content: <>
-                                    <BaseControl>
-                                        <BaseControl.VisualLabel>
-                                            {__('Frontend', 'unskippable-notifications')}
-                                        </BaseControl.VisualLabel>
-                                        <FrontendDisplayControl
-                                            value={frontendDisplay}
-                                            onChange={(value) => setFrontendDisplay(value)}
-                                        />
-                                    </BaseControl>
-                                    <Spacer>
-                                        <NumberControl
-                                            label={__('Default Duration', 'unskippable-notifications')}
-                                            help={__('For how many days after publication should a new notification be shown by default? Can be changed for every notification during creation.', 'unskippable-notifications')}
-                                            value={defaultDuration}
-                                            onChange={(value) => setDefaultDuration(value)}
-                                        />
-                                    </Spacer>
-                                </>
-                            },
-                            {
-                                name: 'about',
-                                title: 'About',
-                                className: 'unskippable-notifications-settings__tab--about',
-                                content: <p>{__("This plugin is open source. You can join development and find other ways to support this project on", 'unskippable-notificatons')} <a href='https://github.com/Creanimo/wp-unskippable-notifications-and-approvals'>GitHub</a></p>
-                            },
-                        ]}
-                    >
-                        {({ title, content, className }) => <Panel><PanelBody><div className={className}>{content}</div></PanelBody></Panel>}
-                    </TabPanel>
-                </PanelBody>
-            </Panel>
-            <Panel>
-                <PanelBody>
-                    <SaveButton onClick={() => { }} />
-                </PanelBody>
-            </Panel>
+
+            <Spacer><h1>{__('Unskippable Notifications & Approvals', 'unskippable-notifications')}</h1></Spacer>
+            <Spacer>
+                <TabPanel
+                    className="my-tab-panel"
+                    activeClass="is-active"
+                    onSelect={onTabSelect}
+                    tabs={[
+                        {
+                            name: 'general',
+                            title: <>{__('General', 'unskippable-notifications')}</>,
+                            className: 'unskippable-notifications-settings__tab--general',
+                            content: <>
+                                <BaseControl>
+                                    <BaseControl.VisualLabel>
+                                        {__('Frontend', 'unskippable-notifications')}
+                                    </BaseControl.VisualLabel>
+                                    <FrontendDisplayControl
+                                        value={frontendDisplay}
+                                        onChange={(value) => setFrontendDisplay(value)}
+                                    />
+                                </BaseControl>
+                                <Spacer>
+                                    <NumberControl
+                                        label={__('Default Duration', 'unskippable-notifications')}
+                                        help={__('For how many days after publication should a new notification be shown by default? Can be changed for every notification during creation.', 'unskippable-notifications')}
+                                        value={defaultDuration}
+                                        onChange={(value) => setDefaultDuration(value)}
+                                    />
+                                </Spacer>
+                            </>
+                        },
+                        {
+                            name: 'about',
+                            title: 'About',
+                            className: 'unskippable-notifications-settings__tab--about',
+                            content: <p>{__("This plugin is open source. You can join development and find other ways to support this project on", 'unskippable-notificatons')} <a href='https://github.com/Creanimo/wp-unskippable-notifications-and-approvals'>GitHub</a></p>
+                        },
+                    ]}
+                >
+                    {({ title, content, className }) => <Panel><PanelBody><div className={className}>{content}</div></PanelBody></Panel>}
+                </TabPanel>
+            </Spacer>
+            <Spacer>
+                <SaveButton onClick={() => { }} />
+            </Spacer>
+
         </>
     );
 };
