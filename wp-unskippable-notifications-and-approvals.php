@@ -24,11 +24,11 @@ function unskippable_notifications_settings_page() {
 add_action( 'admin_menu', 'unskippable_notifications_settings_page' );
 
 /**
- * Load html into settings page
+ * Load html into settings page - javascript puts react interface into this placeholder
  */
 function unskippable_notifications_settings_page_html() {
     printf(
-        '<div class="wrap" id="unskippable-notifications_settings">%s</div>',
+        '<div class="wrap" id="unskippable-notifications-settings">%s</div>',
         esc_html__( 'Loading…', 'unskippable-notifications' )
     );
 }
@@ -37,7 +37,7 @@ function unskippable_notifications_settings_page_html() {
  * Enqueue scripts for the settings page
  */
 function unskippable_notifications_settings_page_enqueue_style_script( $admin_page ) {
-    if ( 'settings_page_unskippable-notifications' !== $admin_page ) {
+    if ( 'settings_page_unskippable_notifications' !== $admin_page ) {
         return;
     }
 
@@ -49,6 +49,7 @@ function unskippable_notifications_settings_page_enqueue_style_script( $admin_pa
 
     $asset = include $asset_file;
 
+    // JS for building the react GUI
     wp_enqueue_script(
         'unskippable-notifications-script',
         plugins_url( 'build/index.js', __FILE__ ),
@@ -58,6 +59,9 @@ function unskippable_notifications_settings_page_enqueue_style_script( $admin_pa
             'in_footer' => true,
         )
     );
+
+    // CSS Style for Wordpress Components
+    wp_enqueue_style( 'wp-components' );
 }
 
 add_action( 'admin_enqueue_scripts', 'unskippable_notifications_settings_page_enqueue_style_script' );
