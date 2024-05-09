@@ -1,7 +1,7 @@
 # Unskippable Notifications and Approvals
 
-> [!WARNING]  
-> This plugin isn't functional yet.
+> [!CAUTION]  
+> This plugin isn't functional yet. Only run this in a development environment.
 
 With this plugin, administrators can show messages in the frontend, which users are forced to confirm or react to. The user has to interact with all requests assigned to them, otherwise they are blocked from using the frontend.
 
