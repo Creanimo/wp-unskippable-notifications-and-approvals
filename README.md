@@ -6,9 +6,9 @@
 > [!CAUTION]  
 > This plugin isn't functional yet. Only run this in a development environment.
 
-With this WordPress plugin, administrators can show messages in the frontend, which users are forced to confirm or react to. The user has to interact with all requests assigned to them, otherwise they are blocked from using the frontend.
+With this WordPress plugin, administrators can show **messages in the frontend**, which **users are forced to confirm** or react to. The user has to interact with all requests assigned to them, otherwise they are blocked from using the frontend.
 
-The goal is to gather and log confirmation from all or selected employees, as well as approvals from higher ups. Consequently, this plugin is designed for internal company knowledge bases and not public websites. 
+The goal is to **gather and log confirmation from all or selected employees**, as well as approvals from higher ups. Consequently, this plugin is designed for internal company knowledge bases and not public websites. 
 
 > [!IMPORTANT]  
 > The notifications are purposfully interrupting in nature and block a user temporarily from using the rest of the site. For more gentle announcements and a less aggressive, fully-featured document approval system, you might want to consider looking for another plugin. This is also not a messaging system.
