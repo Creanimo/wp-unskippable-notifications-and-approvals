@@ -52,7 +52,7 @@ if (!function_exists('unskippable_notification_custom_post_type')) {
             'description'           => __('Users are forced to react to these Notifications and Approval Requests on the frontend. They are restricted from using the site until they interacted with every message assigned to them.', 'unskippable-notifications'),
             'labels'                => $labels,
             'supports'              => array('title', 'editor', 'comments', 'revisions', 'custom-fields'),
-            'taxonomies'            => array('category', 'post_tag'),
+            'taxonomies'            => array('post_tag'),
             'hierarchical'          => false,
             'public'                => true,
             'show_ui'               => true,
