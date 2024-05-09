@@ -1,9 +1,12 @@
 # Unskippable Notifications and Approvals
 
+![Badge: Tested with Wordpress 6.5.3](https://img.shields.io/badge/tested_with_WordPress-6.5.3-blue?logo=wordpress)
+
+
 > [!CAUTION]  
 > This plugin isn't functional yet. Only run this in a development environment.
 
-With this plugin, administrators can show messages in the frontend, which users are forced to confirm or react to. The user has to interact with all requests assigned to them, otherwise they are blocked from using the frontend.
+With this WordPress plugin, administrators can show messages in the frontend, which users are forced to confirm or react to. The user has to interact with all requests assigned to them, otherwise they are blocked from using the frontend.
 
 The goal is to gather and log confirmation from all or selected employees, as well as approvals from higher ups. Consequently, this plugin is designed for internal company knowledge bases and not public websites. 
 
