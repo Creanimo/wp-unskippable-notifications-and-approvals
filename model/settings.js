@@ -1,8 +1,8 @@
 import { useState } from '@wordpress/element';
 
 /**
- * Define settings, set their defaults and greate the setter functions
- * @returns {Array} all settings for this plugin
+ * Define settings, set their defaults and create the setter functions
+ * @returns {Object} all settings for this plugin
  */
 export const useSettings = () => {
     const [frontendDisplay, setFrontendDisplay] = useState(true);

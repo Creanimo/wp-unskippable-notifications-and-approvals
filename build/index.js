@@ -17,8 +17,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /**
- * Define settings, set their defaults and greate the setter functions
- * @returns {Array} all settings for this plugin
+ * Define settings, set their defaults and create the setter functions
+ * @returns {Object} all settings for this plugin
  */
 const useSettings = () => {
   const [frontendDisplay, setFrontendDisplay] = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_0__.useState)(true);
