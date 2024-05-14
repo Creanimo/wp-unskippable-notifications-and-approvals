@@ -16,6 +16,12 @@ The goal is to **gather and log confirmation from all or selected employees**, a
 > [!WARNING]  
 > If you are less tech-savy, misconfiguration might lock yourself out of your own frontend. However, tech-savy people will have no problem to circumvent the block. This is intentionally not a bullet-proof system.
 
+## Troubleshooting
+
+### When creating a notification, selecting user (roles) doesn't show search results
+
+Activate a pretty permalink structure, so the WordPress API endpoints can be accessed.
+
 ## Thanks to
 
 * **Generate WP** for this very useful [Custom Post Type Generator](https://generatewp.com/post-type/)
