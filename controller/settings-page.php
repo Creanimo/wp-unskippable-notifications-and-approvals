@@ -22,9 +22,11 @@ add_action('admin_menu', 'unskippable_notifications_settings_page');
 /**
  * Enqueue scripts for the settings page react interface
  */
-function unskippable_notifications_settings_page_enqueue_style_script($admin_page)
-{
-    if ('unskippable_notif_page_unskippable_notifications' !== $admin_page) {
+function unskippable_notifications_settings_page_enqueue_style_script() {
+    $screen = get_current_screen();
+
+    // Check if we're on the new, edit, or settings page of the custom post type
+    if ( !in_array( $screen->id, array( 'unskippable_notif', 'edit-unskippable_notif', 'unskippable_notif_page_unskippable_notifications' ) ) ) {
         return;
     }
 
@@ -42,9 +44,7 @@ function unskippable_notifications_settings_page_enqueue_style_script($admin_pag
         plugins_url('../build/index.js', __FILE__),
         $asset['dependencies'],
         $asset['version'],
-        array(
-            'in_footer' => true,
-        )
+        true // in_footer
     );
 
     // CSS Style for Wordpress Components
@@ -52,3 +52,12 @@ function unskippable_notifications_settings_page_enqueue_style_script($admin_pag
 }
 
 add_action('admin_enqueue_scripts', 'unskippable_notifications_settings_page_enqueue_style_script');
+
+function enqueue_my_custom_script() {
+    wp_enqueue_script('my-custom-script', 'path-to-your-js-file.js', array('wp-api'));
+    wp_localize_script('my-custom-script', 'wpApiSettings', array(
+        'root' => esc_url_raw(rest_url()),
+        'nonce' => wp_create_nonce('wp_rest')
+    ));
+}
+add_action('wp_enqueue_scripts', 'enqueue_my_custom_script');

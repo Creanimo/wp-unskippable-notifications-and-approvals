@@ -12,3 +12,6 @@
 require_once(plugin_dir_path(__FILE__) . 'model/notifications-custom-post-type.php');
 
 require_once(plugin_dir_path(__FILE__) . 'controller/settings-page.php');
+require_once(plugin_dir_path(__FILE__) . 'controller/user-search_autocomplete-api.php');
+
+require_once(plugin_dir_path(__FILE__) . 'view/notification-post-meta.php');
