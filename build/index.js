@@ -2234,9 +2234,6 @@ const useSettings = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
@@ -2257,46 +2254,86 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const animatedComponents = (0,react_select_animated__WEBPACK_IMPORTED_MODULE_3__["default"])();
-function UserTokenField() {
+
+// Reusable search field component
+function SearchField({
+  searchPath,
+  placeholderText,
+  noOptionsText,
+  formatOptionLabel,
+  maxResults
+}) {
   const [options, setOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [selectedOptions, setSelectedOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const handleInputChange = inputValue => {
+  const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+  const fetchOptions = (inputValue = '') => {
+    setIsLoading(true);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
-      path: `/unskippable-notif/v1/search-users/?search=${inputValue}`,
+      path: searchPath(inputValue),
       method: 'GET',
       headers: {
         'X-WP-Nonce': wpApiSettings.nonce
       }
     }).then(results => {
-      const formattedOptions = results.map(user => ({
-        value: user.id,
-        label: `${user.first_name} ${user.last_name} (${user.display_name})`
+      // Limit the number of results if maxResults is defined
+      const limitedResults = typeof maxResults === 'number' ? results.slice(0, maxResults) : results;
+      const formattedOptions = limitedResults.map(item => ({
+        value: item.id,
+        label: formatOptionLabel(item)
       }));
       setOptions(formattedOptions);
+      setIsLoading(false);
     });
+  };
+  const handleInputChange = inputValue => {
+    fetchOptions(inputValue);
+  };
+  const handleFocus = () => {
+    if (options.length === 0) {
+      fetchOptions(); // Fetch all options when the field is focused
+    }
   };
   const handleChange = selectedOptions => {
     setSelectedOptions(selectedOptions);
   };
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, "Notify user(s):"), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
     components: animatedComponents,
     isMulti: true,
     options: options,
     value: selectedOptions,
     onChange: handleChange,
     onInputChange: handleInputChange,
-    placeholder: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Type a user's name", 'unskippable-notifications'),
-    noOptionsMessage: () => {
-      (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('No user(s) found.', 'unskippable-notifications');
-    },
-    isLoading: options.length === 0
+    onFocus: handleFocus,
+    placeholder: placeholderText,
+    noOptionsMessage: () => noOptionsText,
+    isLoading: isLoading
   }));
 }
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (UserTokenField);
+
+// Example usage in App component
+function App() {
+  const formatUserLabel = user => `${user.first_name} ${user.last_name} (${user.display_name})`;
+  const formatRoleLabel = role => role.role_name;
+  const maxUserResults = 10;
+  const maxRoleResults = 10;
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Notify user(s):", 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SearchField, {
+    searchPath: inputValue => `/unskippable-notif/v1/search-users/?search=${inputValue}`,
+    placeholderText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Type a user's name", 'unskippable-notifications'),
+    noOptionsText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('No user(s) found.', 'unskippable-notifications'),
+    formatOptionLabel: formatUserLabel,
+    maxResults: maxUserResults
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search role(s):", 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SearchField, {
+    searchPath: inputValue => `/unskippable-notif/v1/search-roles/?search=${inputValue}`,
+    placeholderText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Type a role's name", 'unskippable-notifications'),
+    noOptionsText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('No role(s) found.', 'unskippable-notifications'),
+    formatOptionLabel: formatRoleLabel,
+    maxResults: maxRoleResults
+  }));
+}
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {
   const container = document.getElementById('unskippable-notif_edit-sidebar');
-  const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container); // createRoot(container!) if you use TypeScript
-  root.render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(UserTokenField, null));
+  const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
+  root.render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(App, null));
 });
 
 /***/ }),

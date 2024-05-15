@@ -27,7 +27,7 @@ function search_roles_by_name_api($request) {
     $response = array();
     foreach ($matching_roles as $role_key => $role_name) {
         $response[] = array(
-            'role_key' => $role_key,
+            'id' => $role_key,
             'role_name' => $role_name
         );
     }

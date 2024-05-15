@@ -4,7 +4,7 @@
  */
 function notification_options_meta_box_callback() {
     printf(
-        '<div class="wrap" id="unskippable-notif_edit-sidebar">%s</div>',
+        '<div id="unskippable-notif_edit-sidebar">%s</div>',
         esc_html__('Loading…', 'unskippable-notifications')
     );
 }
