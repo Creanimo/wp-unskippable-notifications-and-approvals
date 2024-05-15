@@ -15,13 +15,15 @@ function SearchField({
     noOptionsText,
     formatOptionLabel,
     maxResults,
-    initialData, // Add a prop for initial data
-    onSave, // Add a prop for save callback
+    initialData,
+    onSave,
 }) {
+    // Initialize with initialData if it's an array, otherwise default to an empty array
     const [options, setOptions] = useState([]);
-    const [selectedOptions, setSelectedOptions] = useState(Array.isArray(initialData) ? initialData : []);
+    const [selectedOptions, setSelectedOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    
+    // Fetch options and format them for the Select component
     const fetchOptions = (inputValue = '') => {
         setIsLoading(true);
         apiFetch({
@@ -31,7 +33,6 @@ function SearchField({
                 'X-WP-Nonce': wpApiSettings.nonce
             }
         }).then((results) => {
-            // Limit the number of results if maxResults is defined
             const limitedResults = typeof maxResults === 'number' ? results.slice(0, maxResults) : results;
             const formattedOptions = limitedResults.map((item) => ({
                 value: item.id,
@@ -42,27 +43,29 @@ function SearchField({
         });
     };
 
+    // Effect to set initial selected options
     useEffect(() => {
         if (Array.isArray(initialData)) {
-            setSelectedOptions(initialData.map((item) => ({
-                value: item.id,
-                label: formatOptionLabel(item)
-            })));
+            setSelectedOptions(initialData);
         }
-    }, [initialData, formatOptionLabel]);
+    }, [initialData]);
 
+    // Handlers for Select component
     const handleInputChange = (inputValue) => {
         fetchOptions(inputValue);
     };
 
     const handleFocus = () => {
         if (options.length === 0) {
-            fetchOptions(); // Fetch all options when the field is focused
+            fetchOptions();
         }
     };
 
-    const handleChange = (selectedOptions) => {
-        setSelectedOptions(selectedOptions);
+    const handleChange = (newSelectedOptions) => {
+        setSelectedOptions(newSelectedOptions);
+        if (onSave) {
+            onSave(newSelectedOptions);
+        }
     };
 
     // Effect hook to call onSave when selectedOptions change
@@ -73,22 +76,21 @@ function SearchField({
     }, [selectedOptions, onSave]);
 
     return (
-        <>
-            <Select
-                components={animatedComponents}
-                isMulti
-                options={options}
-                value={selectedOptions}
-                onChange={handleChange}
-                onInputChange={handleInputChange}
-                onFocus={handleFocus}
-                placeholder={placeholderText}
-                noOptionsMessage={() => noOptionsText}
-                isLoading={isLoading}
-            />
-        </>
+        <Select
+            components={animatedComponents}
+            isMulti
+            options={options}
+            value={selectedOptions}
+            onChange={handleChange}
+            onInputChange={handleInputChange}
+            onFocus={handleFocus}
+            placeholder={placeholderText}
+            noOptionsMessage={() => noOptionsText}
+            isLoading={isLoading}
+        />
     );
 }
+
 
 
 // Example usage in App component

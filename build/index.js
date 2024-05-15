@@ -2263,12 +2263,14 @@ function SearchField({
   formatOptionLabel,
   maxResults,
   initialData,
-  // Add a prop for initial data
-  onSave // Add a prop for save callback
+  onSave
 }) {
+  // Initialize with initialData if it's an array, otherwise default to an empty array
   const [options, setOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [selectedOptions, setSelectedOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Array.isArray(initialData) ? initialData : []);
+  const [selectedOptions, setSelectedOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
   const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
+
+  // Fetch options and format them for the Select component
   const fetchOptions = (inputValue = '') => {
     setIsLoading(true);
     _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
@@ -2278,7 +2280,6 @@ function SearchField({
         'X-WP-Nonce': wpApiSettings.nonce
       }
     }).then(results => {
-      // Limit the number of results if maxResults is defined
       const limitedResults = typeof maxResults === 'number' ? results.slice(0, maxResults) : results;
       const formattedOptions = limitedResults.map(item => ({
         value: item.id,
@@ -2288,24 +2289,28 @@ function SearchField({
       setIsLoading(false);
     });
   };
+
+  // Effect to set initial selected options
   (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
     if (Array.isArray(initialData)) {
-      setSelectedOptions(initialData.map(item => ({
-        value: item.id,
-        label: formatOptionLabel(item)
-      })));
+      setSelectedOptions(initialData);
     }
-  }, [initialData, formatOptionLabel]);
+  }, [initialData]);
+
+  // Handlers for Select component
   const handleInputChange = inputValue => {
     fetchOptions(inputValue);
   };
   const handleFocus = () => {
     if (options.length === 0) {
-      fetchOptions(); // Fetch all options when the field is focused
+      fetchOptions();
     }
   };
-  const handleChange = selectedOptions => {
-    setSelectedOptions(selectedOptions);
+  const handleChange = newSelectedOptions => {
+    setSelectedOptions(newSelectedOptions);
+    if (onSave) {
+      onSave(newSelectedOptions);
+    }
   };
 
   // Effect hook to call onSave when selectedOptions change
@@ -2314,7 +2319,7 @@ function SearchField({
       onSave(selectedOptions);
     }
   }, [selectedOptions, onSave]);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
     components: animatedComponents,
     isMulti: true,
     options: options,
@@ -2325,7 +2330,7 @@ function SearchField({
     placeholder: placeholderText,
     noOptionsMessage: () => noOptionsText,
     isLoading: isLoading
-  }));
+  });
 }
 
 // Example usage in App component
