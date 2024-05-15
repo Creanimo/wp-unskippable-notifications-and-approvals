@@ -2261,10 +2261,13 @@ function SearchField({
   placeholderText,
   noOptionsText,
   formatOptionLabel,
-  maxResults
+  maxResults,
+  initialData,
+  // Add a prop for initial data
+  onSave // Add a prop for save callback
 }) {
   const [options, setOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
-  const [selectedOptions, setSelectedOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)([]);
+  const [selectedOptions, setSelectedOptions] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(Array.isArray(initialData) ? initialData : []);
   const [isLoading, setIsLoading] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(false);
   const fetchOptions = (inputValue = '') => {
     setIsLoading(true);
@@ -2285,6 +2288,14 @@ function SearchField({
       setIsLoading(false);
     });
   };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (Array.isArray(initialData)) {
+      setSelectedOptions(initialData.map(item => ({
+        value: item.id,
+        label: formatOptionLabel(item)
+      })));
+    }
+  }, [initialData, formatOptionLabel]);
   const handleInputChange = inputValue => {
     fetchOptions(inputValue);
   };
@@ -2296,6 +2307,13 @@ function SearchField({
   const handleChange = selectedOptions => {
     setSelectedOptions(selectedOptions);
   };
+
+  // Effect hook to call onSave when selectedOptions change
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (onSave) {
+      onSave(selectedOptions);
+    }
+  }, [selectedOptions, onSave]);
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
     components: animatedComponents,
     isMulti: true,
@@ -2314,22 +2332,54 @@ function SearchField({
 function App() {
   const formatUserLabel = user => `${user.first_name} ${user.last_name} (${user.display_name})`;
   const formatRoleLabel = role => role.role_name;
+  const initialUsersData = unskippableNotifData.customFieldData.users;
+  const initialRolesData = unskippableNotifData.customFieldData.roles;
   const maxUserResults = 10;
   const maxRoleResults = 10;
+  console.log('unskippableNotifData:', unskippableNotifData);
+  console.log('initialUsersData:', initialUsersData);
+  console.log('initialRolesData:', initialRolesData);
+  const handleSave = (selectedOptions, metaKey) => {
+    const post_id = wp.data.select('core/editor').getCurrentPostId(); // Get the current post ID
+
+    _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default()({
+      path: `/unskippable-notif/v1/save-meta/${metaKey}`,
+      method: 'POST',
+      headers: {
+        'X-WP-Nonce': wpApiSettings.nonce,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        post_id: post_id,
+        selectedOptions: selectedOptions
+      })
+    });
+  };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Notify user(s):", 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SearchField, {
     searchPath: inputValue => `/unskippable-notif/v1/search-users/?search=${inputValue}`,
     placeholderText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Type a user's name", 'unskippable-notifications'),
     noOptionsText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('No user(s) found.', 'unskippable-notifications'),
     formatOptionLabel: formatUserLabel,
-    maxResults: maxUserResults
+    maxResults: maxUserResults,
+    initialData: initialUsersData // Pass initial data for users
+    ,
+    onSave: selectedOptions => handleSave(selectedOptions, 'notify_users') // Pass save callback
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search role(s):", 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SearchField, {
     searchPath: inputValue => `/unskippable-notif/v1/search-roles/?search=${inputValue}`,
     placeholderText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Type a role's name", 'unskippable-notifications'),
-    noOptionsText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('No role(s) found.', 'unskippable-notifications'),
+    noOptionsMessage: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)('No role(s) found.', 'unskippable-notifications'),
     formatOptionLabel: formatRoleLabel,
-    maxResults: maxRoleResults
+    maxResults: maxRoleResults,
+    initialData: initialRolesData // Pass initial data for roles
+    ,
+    onSave: selectedOptions => handleSave(selectedOptions, 'notify_roles') // Pass save callback
   }));
 }
+_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {
+  const container = document.getElementById('unskippable-notif_edit-sidebar');
+  const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
+  root.render((0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(App, null));
+});
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {
   const container = document.getElementById('unskippable-notif_edit-sidebar');
   const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_1__.createRoot)(container);
