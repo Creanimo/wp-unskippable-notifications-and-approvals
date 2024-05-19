@@ -10,13 +10,15 @@
  **/
 
 require_once(plugin_dir_path(__FILE__) . 'model/notifications-custom-post-type.php');
+require_once(plugin_dir_path(__FILE__) . 'model/notification-custom-meta.php');
 require_once(plugin_dir_path(__FILE__) . 'model/transient_who-to-notify.php');
 
 require_once(plugin_dir_path(__FILE__) . 'controller/settings-page.php');
 require_once(plugin_dir_path(__FILE__) . 'controller/user-search_autocomplete-api.php');
 require_once(plugin_dir_path(__FILE__) . 'controller/role-search_autocomplete-api.php');
 require_once(plugin_dir_path(__FILE__) . 'controller/meta-box_save.php');
-require_once(plugin_dir_path(__FILE__) . 'controller/check-permissions.php');
+require_once(plugin_dir_path(__FILE__) . 'controller/check-permissions.php'); # TODO: not actually checking write permissions yet
 require_once(plugin_dir_path(__FILE__) . 'controller/transient_build-who-to-notify.php');
+require_once(plugin_dir_path(__FILE__) . 'controller/mark-as-read.php');
 
 require_once(plugin_dir_path(__FILE__) . 'view/notification-post-meta.php');
