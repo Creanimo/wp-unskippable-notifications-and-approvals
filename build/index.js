@@ -2368,7 +2368,7 @@ function App() {
     maxResults: maxUserResults,
     initialData: initialUsersData // Pass initial data for users
     ,
-    onSave: selectedOptions => handleSave(selectedOptions, 'notify_users') // Pass save callback
+    onSave: selectedOptions => handleSave(selectedOptions, 'notify_users_field') // Pass save callback
   }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Search role(s):", 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SearchField, {
     searchPath: inputValue => `/unskippable-notif/v1/search-roles/?search=${inputValue}`,
     placeholderText: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Type a role's name", 'unskippable-notifications'),
@@ -2377,7 +2377,7 @@ function App() {
     maxResults: maxRoleResults,
     initialData: initialRolesData // Pass initial data for roles
     ,
-    onSave: selectedOptions => handleSave(selectedOptions, 'notify_roles') // Pass save callback
+    onSave: selectedOptions => handleSave(selectedOptions, 'notify_roles_field') // Pass save callback
   }));
 }
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {

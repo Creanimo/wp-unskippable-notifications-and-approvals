@@ -132,7 +132,7 @@ function App() {
                 formatOptionLabel={formatUserLabel}
                 maxResults={maxUserResults}
                 initialData={initialUsersData} // Pass initial data for users
-                onSave={(selectedOptions) => handleSave(selectedOptions, 'notify_users')} // Pass save callback
+                onSave={(selectedOptions) => handleSave(selectedOptions, 'notify_users_field')} // Pass save callback
             />
             <h3>{__("Search role(s):", 'unskippable-notifications')}</h3>
             <SearchField
@@ -142,7 +142,7 @@ function App() {
                 formatOptionLabel={formatRoleLabel}
                 maxResults={maxRoleResults}
                 initialData={initialRolesData} // Pass initial data for roles
-                onSave={(selectedOptions) => handleSave(selectedOptions, 'notify_roles')} // Pass save callback
+                onSave={(selectedOptions) => handleSave(selectedOptions, 'notify_roles_field')} // Pass save callback
             />
         </>
     );

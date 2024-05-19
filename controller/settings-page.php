@@ -51,8 +51,8 @@ function unskippable_notifications_settings_page_enqueue_style_script()
     // Localize the script with your data
     $post_id = get_the_ID();
     if ($post_id) {
-        $users_data = get_post_meta($post_id, 'notify_users', true);
-        $roles_data = get_post_meta($post_id, 'notify_roles', true);
+        $users_data = get_post_meta($post_id, 'notify_users_field', true);
+        $roles_data = get_post_meta($post_id, 'notify_roles_field', true);
         wp_localize_script('unskippable-notifications-script', 'unskippableNotifData', [
             'customFieldData' => [
                 'users' => $users_data,
