@@ -25,4 +25,5 @@ Activate a pretty permalink structure, so the WordPress API endpoints can be acc
 ## Thanks to
 
 * **Generate WP** for this very useful [Custom Post Type Generator](https://generatewp.com/post-type/)
-* **[Róbert Mészáros](https://profiles.wordpress.org/meszarosrob/)** for his excellent write up on [How to use WordPress React components for plugin pages](https://developer.wordpress.org/news/2024/03/26/how-to-use-wordpress-react-components-for-plugin-pages/)
+* **[Róbert Mészáros](https://profiles.wordpress.org/meszarosrob/)** for this excellent write up on [How to use WordPress React components for plugin pages](https://developer.wordpress.org/news/2024/03/26/how-to-use-wordpress-react-components-for-plugin-pages/)
+* **Alex Standiford** for this comprehensible article: [Make Webpack Configuration Easy With wordpress/scripts](https://dev.to/alexstandiford/make-webpack-configuration-easy-with-wordpress-scripts-26kk)
