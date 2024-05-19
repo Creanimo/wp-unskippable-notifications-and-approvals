@@ -13895,7 +13895,7 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 /*!**********************!*\
-  !*** ./src/index.js ***!
+  !*** ./src/admin.js ***!
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_settings_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../view/settings-page */ "./view/settings-page.js");
@@ -13906,4 +13906,4 @@ __webpack_require__.r(__webpack_exports__);
 
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=admin.js.map

@@ -31,7 +31,7 @@ function unskippable_notifications_settings_page_enqueue_style_script()
         return;
     }
 
-    $asset_file = plugin_dir_path(__FILE__) . '../build/index.asset.php';
+    $asset_file = plugin_dir_path(__FILE__) . '../build/admin.asset.php';
 
     if (!file_exists($asset_file)) {
         return;
@@ -42,7 +42,7 @@ function unskippable_notifications_settings_page_enqueue_style_script()
     // JS for building the react GUI
     wp_enqueue_script(
         'unskippable-notifications-script',
-        plugins_url('../build/index.js', __FILE__),
+        plugins_url('../build/admin.js', __FILE__),
         $asset['dependencies'],
         $asset['version'],
         true // in_footer
