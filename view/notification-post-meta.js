@@ -95,7 +95,7 @@ function SearchField({
 
 // Example usage in App component
 function App() {
-    const formatUserLabel = (user) => `${user.first_name} ${user.last_name} (${user.display_name})`;
+    const formatUserLabel = (user) => `${user.first_name} ${user.last_name} (${user.user_email})`;
     const formatRoleLabel = (role) => role.role_name;
     const initialUsersData = unskippableNotifData.customFieldData.users;
     const initialRolesData = unskippableNotifData.customFieldData.roles;

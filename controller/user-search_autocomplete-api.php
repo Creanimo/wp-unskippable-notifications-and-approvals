@@ -43,7 +43,7 @@ function search_users_by_name_api($request) {
             'id' => $user->ID,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'display_name' => $user->display_name,
+            'user_email' => $user->user_email,
         );
     }, $users);
 
