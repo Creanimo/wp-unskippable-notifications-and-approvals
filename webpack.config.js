@@ -13,7 +13,9 @@ module.exports = {
     ...{
         entry: {
             admin: path.resolve( process.cwd(), 'src', 'admin.js' ),
+            "frontend-style": path.resolve( process.cwd(), 'src', 'frontend.scss' ),
             "frontend": path.resolve( process.cwd(), 'src', 'frontend.js' ),
+            "blocks": path.resolve( process.cwd(), 'src', 'blocks.js' ),
         },
     }
 }

@@ -2226,6 +2226,52 @@ const useSettings = () => {
 
 /***/ }),
 
+/***/ "./view/block_notification-list.js":
+/*!*****************************************!*\
+  !*** ./view/block_notification-list.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "react");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+
+
+const {
+  registerBlockType
+} = wp.blocks;
+registerBlockType('plugin/notification-block', {
+  title: 'Notification List',
+  icon: 'megaphone',
+  // Use a WordPress Dashicon or custom SVG
+  category: 'layout',
+  edit: function (props) {
+    // This is where you define the editor interface
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Current Notifications', 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: "mode--light unskippable-notif__list-block",
+      className: props.className
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      id: "unskippable-notif__list"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("p", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('A list of all notifications will be displayed here.', 'unskippable-notifications')))));
+  },
+  save: function (props) {
+    // This is what gets saved and output on the frontend
+    return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h2", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Current Notifications', 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: "mode--light unskippable-notif__list-block",
+      className: props.className
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      id: "unskippable-notif__list"
+    }, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("div", {
+      class: "unskippable-notif__loading-message"
+    }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading Notifications...', 'unskippable-notifications')))));
+  }
+});
+
+/***/ }),
+
 /***/ "./view/notification-post-meta.js":
 /*!****************************************!*\
   !*** ./view/notification-post-meta.js ***!
@@ -13900,6 +13946,8 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _view_settings_page__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../view/settings-page */ "./view/settings-page.js");
 /* harmony import */ var _view_notification_post_meta__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../view/notification-post-meta */ "./view/notification-post-meta.js");
+/* harmony import */ var _view_block_notification_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../view/block_notification-list */ "./view/block_notification-list.js");
+
 
 
 })();

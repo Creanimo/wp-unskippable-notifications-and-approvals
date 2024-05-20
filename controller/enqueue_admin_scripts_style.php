@@ -20,9 +20,9 @@ function unskippable_notifications_settings_page()
 add_action('admin_menu', 'unskippable_notifications_settings_page');
 
 /**
- * Enqueue scripts for the settings page react interface
+ * Enqueue scripts for the post edit and settings page react interface
  */
-function unskippable_notifications_settings_page_enqueue_style_script()
+function unskippable_notifications_admin_enqueue_style_script()
 {
     $screen = get_current_screen();
 
@@ -41,7 +41,7 @@ function unskippable_notifications_settings_page_enqueue_style_script()
 
     // JS for building the react GUI
     wp_enqueue_script(
-        'unskippable-notifications-script',
+        'unskippable-notifications-admin-script',
         plugins_url('../build/admin.js', __FILE__),
         $asset['dependencies'],
         $asset['version'],
@@ -53,7 +53,7 @@ function unskippable_notifications_settings_page_enqueue_style_script()
     if ($post_id) {
         $users_data = get_post_meta($post_id, 'notify_users_field', true);
         $roles_data = get_post_meta($post_id, 'notify_roles_field', true);
-        wp_localize_script('unskippable-notifications-script', 'unskippableNotifData', [
+        wp_localize_script('unskippable-notifications-admin-script', 'unskippableNotifData', [
             'customFieldData' => [
                 'users' => $users_data,
                 'roles' => $roles_data,
@@ -66,4 +66,4 @@ function unskippable_notifications_settings_page_enqueue_style_script()
     // CSS Style for Wordpress Components
     wp_enqueue_style('wp-components');
 }
-add_action('admin_enqueue_scripts', 'unskippable_notifications_settings_page_enqueue_style_script');
+add_action('admin_enqueue_scripts', 'unskippable_notifications_admin_enqueue_style_script');

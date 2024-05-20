@@ -1,0 +1,1 @@
+import "../view/frontend_block_notification-list";

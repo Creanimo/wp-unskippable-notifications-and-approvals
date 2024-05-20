@@ -1,0 +1,64 @@
+/** 
+Unskippable Notification styling
+*/
+
+$color-modes: (
+  light: (color-bg: #fff),
+  dark: (color-bg: #000),
+);
+
+@mixin mode() {
+  @each $mode, $map in $color-modes {
+    .mode--#{$mode} & {
+      $mode-map: (
+        ) !global;
+
+      @each $key, $submap in $map {
+        $value: map-get(map-get($color-modes, $mode), '#{$key}'
+        );
+      $mode-map: map-merge($mode-map, ($key: $value)) !global;
+    }
+
+    @content;
+    $mode-map: null !global;
+  }
+}
+}
+
+@function m($key) {
+  @return map-get($mode-map, $key);
+}
+
+// Base spacing value
+$spacing-base: 16px;
+
+// Horizontal spacings
+$spacing-horizontal-small: $spacing-base * 0.5; // 50% of base
+$spacing-horizontal-base: $spacing-base; // 100% of base
+$spacing-horizontal-large: $spacing-base * 1.5; // 150% of base
+
+// Vertical spacings
+$spacing-vertical-small: $spacing-base * 0.75; // 75% of base
+$spacing-vertical-base: $spacing-base * 1.25; // 125% of base
+$spacing-vertical-large: $spacing-base * 1.75; // 175% of base
+
+$border-radius: $spacing-base;
+
+#unskippable-notif__list {
+  .unskippable-notif__loading-message,
+  .unskippable-notif__notification {
+    padding: $spacing-vertical-base $spacing-horizontal-base;
+    margin-bottom: $spacing-vertical-large;
+    border-radius: $border-radius;
+    @include mode() {
+      background-color: m(color-bg);
+    }
+  }
+
+  h3 {
+    &:first-child {
+      margin-top: 0;
+    }
+    color: red;
+  }
+}
