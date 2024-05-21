@@ -1,42 +1,83 @@
 /******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./view/frontend_block_notification-list.js":
-/*!**************************************************!*\
-  !*** ./view/frontend_block_notification-list.js ***!
-  \**************************************************/
-/***/ (() => {
+/***/ "./controller/fetch-notifications.js":
+/*!*******************************************!*\
+  !*** ./controller/fetch-notifications.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-document.addEventListener('DOMContentLoaded', function () {
-  var notificationContainer = document.getElementById('unskippable-notif__list');
-  fetch('/wp-json/unskippable-notif/v1/notifications/', {
-    headers: {
-      'X-WP-Nonce': notificationData.nonce
-    }
-  }).then(response => response.json()).then(data => {
-    console.log(data);
-    notificationContainer.innerHTML = '';
-    data.forEach(function (notification) {
-      var containerDiv = document.createElement('div'); // Create a container div
-      containerDiv.classList.add('unskippable-notif__notification'); // Add a class for styling if needed
-
-      var title = document.createElement('h3');
-      title.classList.add('unskippable-notif_notification__title');
-      title.textContent = notification.title;
-      var content = document.createElement('div');
-      content.classList.add('unskippable-notif_notification__content');
-      content.innerHTML = notification.content; // Assuming 'content' is safe to use with innerHTML
-
-      containerDiv.appendChild(title); // Append the title to the container
-      containerDiv.appendChild(content); // Append the content to the container
-
-      notificationContainer.appendChild(containerDiv); // Append the container div to the notificationContainer
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   fetchNotifications: () => (/* binding */ fetchNotifications)
+/* harmony export */ });
+async function fetchNotifications() {
+  try {
+    const response = await fetch('/wp-json/unskippable-notif/v1/notifications/', {
+      headers: {
+        'X-WP-Nonce': notificationData.nonce
+      }
     });
-  }).catch(error => {
+    return await response.json();
+  } catch (error) {
     console.error('Error fetching notifications:', error);
-    notificationContainer.textContent = 'Failed to load notifications.';
+    return [];
+  }
+}
+
+/***/ }),
+
+/***/ "./view/frontend_notification-list.js":
+/*!********************************************!*\
+  !*** ./view/frontend_notification-list.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   buildNotificationList: () => (/* binding */ buildNotificationList)
+/* harmony export */ });
+/* harmony import */ var _notification_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notification-element */ "./view/notification-element.js");
+/* harmony import */ var _controller_fetch_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controller/fetch-notifications */ "./controller/fetch-notifications.js");
+
+
+function buildNotificationList(listID) {
+  listID = document.getElementById(listID);
+  (0,_controller_fetch_notifications__WEBPACK_IMPORTED_MODULE_1__.fetchNotifications)().then(data => {
+    data.forEach(function (notification) {
+      var notificationElement = (0,_notification_element__WEBPACK_IMPORTED_MODULE_0__.createNotificationElement)(notification);
+      listID.appendChild(notificationElement.cloneNode(true));
+    });
   });
-});
+}
+;
+
+/***/ }),
+
+/***/ "./view/notification-element.js":
+/*!**************************************!*\
+  !*** ./view/notification-element.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createNotificationElement: () => (/* binding */ createNotificationElement)
+/* harmony export */ });
+function createNotificationElement(notification) {
+  let containerDiv = document.createElement('div');
+  containerDiv.classList.add('unskippable-notif__notification');
+  let title = document.createElement('h3');
+  title.classList.add('unskippable-notif_notification__title');
+  title.textContent = notification.title;
+  let content = document.createElement('div');
+  content.classList.add('unskippable-notif_notification__content');
+  content.innerHTML = notification.content;
+  containerDiv.appendChild(title);
+  containerDiv.appendChild(content);
+  return containerDiv;
+}
 
 /***/ })
 
@@ -67,18 +108,6 @@ document.addEventListener('DOMContentLoaded', function () {
 /******/ 	}
 /******/ 	
 /************************************************************************/
-/******/ 	/* webpack/runtime/compat get default export */
-/******/ 	(() => {
-/******/ 		// getDefaultExport function for compatibility with non-harmony modules
-/******/ 		__webpack_require__.n = (module) => {
-/******/ 			var getter = module && module.__esModule ?
-/******/ 				() => (module['default']) :
-/******/ 				() => (module);
-/******/ 			__webpack_require__.d(getter, { a: getter });
-/******/ 			return getter;
-/******/ 		};
-/******/ 	})();
-/******/ 	
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
@@ -109,15 +138,13 @@ document.addEventListener('DOMContentLoaded', function () {
 /******/ 	
 /************************************************************************/
 var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be in strict mode.
+// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
-"use strict";
 /*!*************************!*\
   !*** ./src/frontend.js ***!
   \*************************/
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _view_frontend_block_notification_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../view/frontend_block_notification-list */ "./view/frontend_block_notification-list.js");
-/* harmony import */ var _view_frontend_block_notification_list__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_view_frontend_block_notification_list__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _view_frontend_notification_list__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../view/frontend_notification-list */ "./view/frontend_notification-list.js");
 
 })();
 

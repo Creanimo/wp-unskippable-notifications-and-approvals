@@ -2,6 +2,32 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./controller/fetch-notifications.js":
+/*!*******************************************!*\
+  !*** ./controller/fetch-notifications.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   fetchNotifications: () => (/* binding */ fetchNotifications)
+/* harmony export */ });
+async function fetchNotifications() {
+  try {
+    const response = await fetch('/wp-json/unskippable-notif/v1/notifications/', {
+      headers: {
+        'X-WP-Nonce': notificationData.nonce
+      }
+    });
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    return [];
+  }
+}
+
+/***/ }),
+
 /***/ "./view/block_notification-list.js":
 /*!*****************************************!*\
   !*** ./view/block_notification-list.js ***!
@@ -13,6 +39,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _frontend_notification_list__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./frontend_notification-list */ "./view/frontend_notification-list.js");
+
 
 
 const {
@@ -44,6 +72,60 @@ registerBlockType('plugin/notification-block', {
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading Notifications...', 'unskippable-notifications')))));
   }
 });
+(0,_frontend_notification_list__WEBPACK_IMPORTED_MODULE_2__.buildNotificationList)("unskippable-notif__list");
+
+/***/ }),
+
+/***/ "./view/frontend_notification-list.js":
+/*!********************************************!*\
+  !*** ./view/frontend_notification-list.js ***!
+  \********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   buildNotificationList: () => (/* binding */ buildNotificationList)
+/* harmony export */ });
+/* harmony import */ var _notification_element__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./notification-element */ "./view/notification-element.js");
+/* harmony import */ var _controller_fetch_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controller/fetch-notifications */ "./controller/fetch-notifications.js");
+
+
+function buildNotificationList(listID) {
+  listID = document.getElementById(listID);
+  (0,_controller_fetch_notifications__WEBPACK_IMPORTED_MODULE_1__.fetchNotifications)().then(data => {
+    data.forEach(function (notification) {
+      var notificationElement = (0,_notification_element__WEBPACK_IMPORTED_MODULE_0__.createNotificationElement)(notification);
+      listID.appendChild(notificationElement.cloneNode(true));
+    });
+  });
+}
+;
+
+/***/ }),
+
+/***/ "./view/notification-element.js":
+/*!**************************************!*\
+  !*** ./view/notification-element.js ***!
+  \**************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   createNotificationElement: () => (/* binding */ createNotificationElement)
+/* harmony export */ });
+function createNotificationElement(notification) {
+  let containerDiv = document.createElement('div');
+  containerDiv.classList.add('unskippable-notif__notification');
+  let title = document.createElement('h3');
+  title.classList.add('unskippable-notif_notification__title');
+  title.textContent = notification.title;
+  let content = document.createElement('div');
+  content.classList.add('unskippable-notif_notification__content');
+  content.innerHTML = notification.content;
+  containerDiv.appendChild(title);
+  containerDiv.appendChild(content);
+  return containerDiv;
+}
 
 /***/ }),
 

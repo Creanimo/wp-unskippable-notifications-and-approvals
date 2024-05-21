@@ -1,1 +1,1 @@
-import "../view/frontend_block_notification-list";
+import "../view/frontend_notification-list";

@@ -18,6 +18,12 @@ function unskippable_notifications_blocks_enqueue_style_script()
         true // in_footer
     );
 
+    // Localize the script with new data
+    wp_localize_script('unskippable-notifications-blocks-script', 'notificationData', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
+        'nonce' => wp_create_nonce('wp_rest'),
+    ));
+
     register_block_type('plugin/notification-block', array(
         'editor_script' => 'unskippable-notifications-blocks-script',
     ));

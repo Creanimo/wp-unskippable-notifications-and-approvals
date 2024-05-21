@@ -1,4 +1,5 @@
 import { __ } from "@wordpress/i18n";
+import { buildNotificationList } from "./frontend_notification-list";
 
 const { registerBlockType } = wp.blocks;
 
@@ -33,3 +34,5 @@ registerBlockType('plugin/notification-block', {
         );
     }
 });
+
+buildNotificationList("unskippable-notif__list");
