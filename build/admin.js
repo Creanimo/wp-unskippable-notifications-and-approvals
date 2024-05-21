@@ -2518,6 +2518,34 @@ function fetchNotificationTypes() {
   }
   return notificationTypes;
 }
+function TypeSelectDropdown({
+  onSave
+}) {
+  console.log(unskippableNotifData.customFieldData.notificationTypeDefault);
+  console.log(unskippableNotifData.customFieldData.notificationType);
+  function fetchInitialType() {
+    if (unskippableNotifData.customFieldData.notificationType == "") {
+      return unskippableNotifData.customFieldData.notificationTypeDefault;
+    } else {
+      return unskippableNotifData.customFieldData.notificationType;
+    }
+  }
+  const initialOption = fetchInitialType;
+  const [option, setOption] = (0,react__WEBPACK_IMPORTED_MODULE_0__.useState)(initialOption);
+  const handleChange = newSelectedOption => {
+    setOption(newSelectedOption);
+  };
+  (0,react__WEBPACK_IMPORTED_MODULE_0__.useEffect)(() => {
+    if (onSave) {
+      onSave(option);
+    }
+  }, [option, onSave]);
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+    onChange: newSelectedOption => handleChange(newSelectedOption),
+    options: fetchNotificationTypes(),
+    value: option
+  });
+}
 
 // Example usage in App component
 function App() {
@@ -2566,11 +2594,8 @@ function App() {
     initialData: initialRolesData // Pass initial data for roles
     ,
     onSave: selectedOptions => handleSave(selectedOptions, 'notify_roles_field') // Pass save callback
-  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
-    onBlur: function noRefCheck() {},
-    onChange: function noRefCheck() {},
-    onFocus: function noRefCheck() {},
-    options: fetchNotificationTypes()
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(TypeSelectDropdown, {
+    onSave: option => handleSave(option, 'notification_type')
   }));
 }
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {

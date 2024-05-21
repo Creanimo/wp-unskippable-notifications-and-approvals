@@ -29,7 +29,7 @@ add_action('rest_api_init', function () {
             ),
             'selectedOptions' => array(
                 'validate_callback' => function ($param, $request, $key) {
-                    return is_array($param);
+                    return (is_array($param) || is_string($param));
                 }
             ),
         ),
@@ -42,9 +42,10 @@ function save_custom_meta($request) {
     $post_id = $request['post_id'];
 
     // Validate and sanitize input
-    if (!is_array($selectedOptions) || !is_string($meta_key)) {
+    /*
+    if ((!is_array($selectedOptions) || !is_string($selectedOptions)) || !is_string($meta_key)) {
         return new WP_Error('invalid_data', 'Invalid data provided', array('status' => 400));
-    }
+    }*/
 
     // Save the meta field
     update_post_meta($post_id, $meta_key, $selectedOptions);

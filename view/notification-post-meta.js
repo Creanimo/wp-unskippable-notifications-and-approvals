@@ -102,6 +102,40 @@ function fetchNotificationTypes() {
     return notificationTypes;
 }
 
+function TypeSelectDropdown({
+    onSave
+}) {
+    console.log(unskippableNotifData.customFieldData.notificationTypeDefault)
+    console.log(unskippableNotifData.customFieldData.notificationType)
+
+    function fetchInitialType() {
+        if (unskippableNotifData.customFieldData.notificationType == "") {
+            return unskippableNotifData.customFieldData.notificationTypeDefault
+        } else {
+            return unskippableNotifData.customFieldData.notificationType
+        }
+    }
+
+    const initialOption = fetchInitialType;
+
+    const [option, setOption] = useState(initialOption);
+
+    const handleChange = (newSelectedOption) => {
+        setOption(newSelectedOption);
+    };
+
+    useEffect(() => {
+        if (onSave) {
+            onSave(option);
+        }
+    }, [option, onSave]);
+
+    return <SelectControl
+        onChange={(newSelectedOption) => handleChange(newSelectedOption)}
+        options={fetchNotificationTypes()}
+        value={option}
+    />
+}
 
 // Example usage in App component
 function App() {
@@ -156,11 +190,8 @@ function App() {
                 initialData={initialRolesData} // Pass initial data for roles
                 onSave={(selectedOptions) => handleSave(selectedOptions, 'notify_roles_field')} // Pass save callback
             />
-            <SelectControl
-                onBlur={function noRefCheck() { }}
-                onChange={function noRefCheck() { }}
-                onFocus={function noRefCheck() { }}
-                options={fetchNotificationTypes()}
+            <TypeSelectDropdown
+                onSave={(option) => handleSave(option, 'notification_type')}
             />
         </>
     );
