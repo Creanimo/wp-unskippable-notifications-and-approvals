@@ -13,6 +13,9 @@ add_action('rest_api_init', function () {
 function fetch_notifications_rest_api(WP_REST_Request $request) {
     $current_user_id = get_current_user_id();
     $current_user_roles = wp_get_current_user()->roles;
+    if ( false === ( $value = get_transient( 'unskippable_notif_data_who_to_notify' ) ) ) {
+        create_transient_who_to_notify_data();
+    }
     $notifications = get_transient('unskippable_notif_data_who_to_notify');
 
     if (!$notifications) {

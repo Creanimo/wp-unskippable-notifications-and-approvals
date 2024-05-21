@@ -2,10 +2,6 @@
 
 
 function collect_who_to_notify_data() {
-    if (!can_user_publish_unskippable_notif()) {
-        return; // Exit if the user does not have permission to save notifications
-    }
-
     // Get all notifications
     $args = array(
         'post_type' => 'unskippable_notif',
@@ -57,6 +53,10 @@ function collect_who_to_notify_data() {
         );
     }
 
-    // Save the result as a transient
+    return $notification_data;
+}
+
+function create_transient_who_to_notify_data() {
+    $notification_data = collect_who_to_notify_data();
     set_transient('unskippable_notif_data_who_to_notify', $notification_data, 12 * HOUR_IN_SECONDS);
 }
