@@ -35,4 +35,7 @@ registerBlockType('plugin/notification-block', {
     }
 });
 
-buildNotificationList("unskippable-notif__list");
+let list = document.getElementById("unskippable-notif__list")
+if (list) {
+    buildNotificationList(list);
+}
