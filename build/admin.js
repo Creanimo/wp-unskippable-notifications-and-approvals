@@ -2298,7 +2298,10 @@ registerBlockType('plugin/notification-block', {
     }, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_1__.__)('Loading Notifications...', 'unskippable-notifications')))));
   }
 });
-(0,_frontend_notification_list__WEBPACK_IMPORTED_MODULE_2__.buildNotificationList)("unskippable-notif__list");
+let list = document.getElementById("unskippable-notif__list");
+if (list) {
+  (0,_frontend_notification_list__WEBPACK_IMPORTED_MODULE_2__.buildNotificationList)(list);
+}
 
 /***/ }),
 
@@ -2317,12 +2320,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _controller_fetch_notifications__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../controller/fetch-notifications */ "./controller/fetch-notifications.js");
 
 
-function buildNotificationList(listID) {
-  listID = document.getElementById(listID);
+function buildNotificationList(listElement, buttonCase = 'none') {
   (0,_controller_fetch_notifications__WEBPACK_IMPORTED_MODULE_1__.fetchNotifications)().then(data => {
+    listElement.innerHTML = '';
     data.forEach(function (notification) {
-      var notificationElement = (0,_notification_element__WEBPACK_IMPORTED_MODULE_0__.createNotificationElement)(notification);
-      listID.appendChild(notificationElement.cloneNode(true));
+      let notificationElement = (0,_notification_element__WEBPACK_IMPORTED_MODULE_0__.createNotificationElement)(notification, buttonCase);
+      listElement.appendChild(notificationElement.cloneNode(true));
     });
   });
 }
@@ -2341,7 +2344,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   createNotificationElement: () => (/* binding */ createNotificationElement)
 /* harmony export */ });
-function createNotificationElement(notification) {
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+
+function createNotificationElement(notification, buttonCase = 'none') {
   let containerDiv = document.createElement('div');
   containerDiv.classList.add('unskippable-notif__notification');
   let title = document.createElement('h3');
@@ -2350,8 +2356,43 @@ function createNotificationElement(notification) {
   let content = document.createElement('div');
   content.classList.add('unskippable-notif_notification__content');
   content.innerHTML = notification.content;
+
+  // Append title and content to the container
   containerDiv.appendChild(title);
   containerDiv.appendChild(content);
+
+  // Check if buttonCase is not 'none'
+  if (buttonCase !== 'none') {
+    let buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('unskippable-notif__actions');
+    switch (buttonCase) {
+      case 'none':
+        // No buttons to render
+        break;
+      case 'mark-as-read':
+        let markAsReadButton = document.createElement('button');
+        markAsReadButton.textContent = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mark as Read', 'unskippable-notifications');
+        markAsReadButton.classList.add('unskippable-notif__mark-as-read');
+        // TODO: Add event listener for markAsReadButton
+        buttonsContainer.appendChild(markAsReadButton);
+        break;
+      case 'approval':
+        let acceptButton = document.createElement('button');
+        acceptButton.textContent = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Accept', 'unskippable-notifications');
+        acceptButton.classList.add('unskippable-notif__accept');
+        // TODO: Add event listener for acceptButton
+
+        let declineButton = document.createElement('button');
+        declineButton.textContent = (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Decline', 'unskippable-notifications');
+        declineButton.classList.add('unskippable-notif__decline');
+        // TODO: Add event listener for declineButton
+
+        buttonsContainer.appendChild(acceptButton);
+        buttonsContainer.appendChild(declineButton);
+        break;
+    }
+    containerDiv.appendChild(buttonsContainer);
+  }
   return containerDiv;
 }
 
@@ -2370,12 +2411,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
 /* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/dom-ready */ "@wordpress/dom-ready");
 /* harmony import */ var _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
+/* harmony import */ var react_select__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-select */ "./node_modules/react-select/dist/react-select.esm.js");
 /* harmony import */ var react_select_animated__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-select/animated */ "./node_modules/react-select/animated/dist/react-select-animated.esm.js");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/api-fetch */ "@wordpress/api-fetch");
 /* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
+/* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__);
+
 
 
 
@@ -2450,7 +2494,7 @@ function SearchField({
       onSave(selectedOptions);
     }
   }, [selectedOptions, onSave]);
-  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_6__["default"], {
+  return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react_select__WEBPACK_IMPORTED_MODULE_7__["default"], {
     components: animatedComponents,
     isMulti: true,
     options: options,
@@ -2462,6 +2506,17 @@ function SearchField({
     noOptionsMessage: () => noOptionsText,
     isLoading: isLoading
   });
+}
+function fetchNotificationTypes() {
+  let notificationTypes = [];
+  for (const [key, value] of Object.entries(unskippableNotifData.customFieldData.notificationTypes)) {
+    let notificationType = {
+      label: value,
+      value: key
+    };
+    notificationTypes.push(notificationType);
+  }
+  return notificationTypes;
 }
 
 // Example usage in App component
@@ -2489,6 +2544,8 @@ function App() {
         post_id: post_id,
         selectedOptions: selectedOptions
       })
+    }).catch(error => {
+      console.error('Error saving data:', error);
     });
   };
   return (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(react__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)("h3", null, (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_5__.__)("Notify user(s):", 'unskippable-notifications')), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(SearchField, {
@@ -2509,6 +2566,11 @@ function App() {
     initialData: initialRolesData // Pass initial data for roles
     ,
     onSave: selectedOptions => handleSave(selectedOptions, 'notify_roles_field') // Pass save callback
+  }), (0,react__WEBPACK_IMPORTED_MODULE_0__.createElement)(_wordpress_components__WEBPACK_IMPORTED_MODULE_6__.SelectControl, {
+    onBlur: function noRefCheck() {},
+    onChange: function noRefCheck() {},
+    onFocus: function noRefCheck() {},
+    options: fetchNotificationTypes()
   }));
 }
 _wordpress_dom_ready__WEBPACK_IMPORTED_MODULE_2___default()(() => {

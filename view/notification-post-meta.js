@@ -5,6 +5,7 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import apiFetch from '@wordpress/api-fetch';
 import { __ } from '@wordpress/i18n';
+import { SelectControl } from "@wordpress/components";
 
 const animatedComponents = makeAnimated();
 
@@ -22,7 +23,7 @@ function SearchField({
     const [options, setOptions] = useState([]);
     const [selectedOptions, setSelectedOptions] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    
+
     // Fetch options and format them for the Select component
     const fetchOptions = (inputValue = '') => {
         setIsLoading(true);
@@ -42,6 +43,7 @@ function SearchField({
             setIsLoading(false);
         });
     };
+
 
     // Effect to set initial selected options
     useEffect(() => {
@@ -91,6 +93,14 @@ function SearchField({
     );
 }
 
+function fetchNotificationTypes() {
+    let notificationTypes = [];
+    for (const [key, value] of Object.entries(unskippableNotifData.customFieldData.notificationTypes)) {
+        let notificationType = {label: value, value: key};
+        notificationTypes.push(notificationType)
+    }
+    return notificationTypes;
+}
 
 
 // Example usage in App component
@@ -107,7 +117,7 @@ function App() {
 
     const handleSave = (selectedOptions, metaKey) => {
         const post_id = wp.data.select('core/editor').getCurrentPostId(); // Get the current post ID
-    
+
         apiFetch({
             path: `/unskippable-notif/v1/save-meta/${metaKey}`,
             method: 'POST',
@@ -119,6 +129,8 @@ function App() {
                 post_id: post_id,
                 selectedOptions: selectedOptions,
             }),
+        }).catch(error => {
+            console.error('Error saving data:', error);
         });
     };
 
@@ -143,6 +155,12 @@ function App() {
                 maxResults={maxRoleResults}
                 initialData={initialRolesData} // Pass initial data for roles
                 onSave={(selectedOptions) => handleSave(selectedOptions, 'notify_roles_field')} // Pass save callback
+            />
+            <SelectControl
+                onBlur={function noRefCheck() { }}
+                onChange={function noRefCheck() { }}
+                onFocus={function noRefCheck() { }}
+                options={fetchNotificationTypes()}
             />
         </>
     );

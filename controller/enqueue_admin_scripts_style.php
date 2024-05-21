@@ -1,6 +1,7 @@
 <?php
 
 require_once(plugin_dir_path(__FILE__) . "../view/container-settings-page.php");
+include_once(plugin_dir_path(__FILE__) . "../model/notification-types.php");
 
 /**
  * Set up a menu entry for the settings and load react container
@@ -53,10 +54,14 @@ function unskippable_notifications_admin_enqueue_style_script()
     if ($post_id) {
         $users_data = get_post_meta($post_id, 'notify_users_field', true);
         $roles_data = get_post_meta($post_id, 'notify_roles_field', true);
+        $notification_type = get_post_meta($post_id, 'notification_type', true);
         wp_localize_script('unskippable-notifications-admin-script', 'unskippableNotifData', [
             'customFieldData' => [
                 'users' => $users_data,
                 'roles' => $roles_data,
+                'notificationType' => $notification_type,
+                'notificationTypes' => NOTIFICATION_TYPES,
+                'notificationTypeDefault' => DEFAULT_NOTIFICATION_TYPE,
             ],
         ]);
     }
